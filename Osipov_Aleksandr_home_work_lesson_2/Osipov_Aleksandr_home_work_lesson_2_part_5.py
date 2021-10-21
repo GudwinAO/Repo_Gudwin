@@ -12,38 +12,44 @@
 Вывести цены пяти самых дорогих товаров. Сможете ли вывести цены этих товаров по возрастанию,
 написав минимум кода? """
 
+# создаем наш список цен
 price_list = [55, 66.58, 77, 89, 105.5, 12, 66, 89, 205.8, 110, 99, 89, 105, 117, 22.7]
-position=0
-for price in price_list:
-    price_list[position]= round (price_list[position],2)
-    print (price_list)
 
+# упаковываем цикл в функцию для многократного вызова после сортировки
+def get_price(x):
 
-"""    if price % 1 > 0:
-
+    # запускаем цикл перебора цен и отделяем рубли от копеек, переводим их в тип "строка" для метода zfill
+    for price in x:
         rub = round(price // 1)
-        str_rub =str(rub)
+        str_rub = str(rub)
 
-        kop = round((price % 1*100))
+        kop = round((price % 1 * 100))
         str_kop = str(kop)
 
-        price_list[0] = rub,  kop
+        # выводим f-строкой в 1 строку используя end
+        print(f' {str_rub.zfill(2)} r {str_kop.zfill(2)} kk', end=',')
 
-        new_price = f' {str_rub.zfill(2)} r {str_kop.zfill(2)} kk'
+# выполняем первую часть задачи - выводим цены в линию в формате рубли и копейки
+print('Подзадача 1:')
+price_line = get_price(price_list)
 
-        print(new_price)
+# сортируем список и не меняем данные внутри списка. Тип данных не изменится.
+# можно циклом перебрать исходный/сортированный цикл и вывести type в принт по каждому элементу. Но это избыточно
 
-    else:
-        rub = str(price//1)
-        kop = str(00)
-        new_price = f' {rub.zfill(2)} r {kop.zfill(2)} kk'
-        print(new_price)
+price_list.sort()
+# выводим отсортированный по возрастанию цен список вызовом функции
+print('\nПодзадача 2:')
+price_line_2 = get_price(price_list)
 
+# создаем еще 1 список - копируем наш список в новый список и сортируем новый список по убыванию и снова запросим функцию
+# можно использовать append и добавлять элементы 1 списка в другой в порядке убывания, но это хардкор
+print('\nПодзадача 3:')
+price_list_clone = price_list.copy()
+price_list_clone.sort(reverse=True)
+price_line_3 = get_price(price_list_clone)
 
+# наш новый список отсортирован по убыванию. Функцией по срезу списка выводим 5 наиболее дорогих товаров. Минимум кода.
+print('\nПодзадача 4:')
+price_line_4 = get_price(price_list_clone[0:5])
 
-
-# выводим цены в 1 строку
-separate = ' , '
-price_str = str(separate.join(map(str, price_list)))
-print(price_str)"""
 
