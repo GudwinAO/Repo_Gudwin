@@ -20,16 +20,16 @@ class Car:
 
 
     def go(self):
-        return print("Машина поехала")
+        return "Машина поехала"
 
     def stop(self):
-        return print("Машина остановилась")
+        return "Машина остановилась"
 
     def turn(self, direction):
-        return print(f"Машина повернула {direction}")
+        return f"Машина повернула {direction}"
 
     def show_speed(self):
-        return print(f"Текущая скорость {self.speed}")
+        return f"Текущая скорость {self.speed}"
 
 
 
@@ -39,9 +39,9 @@ class TownCar(Car):
 
     def show_speed(self):
         if int(self.speed) > 40:
-            return print("Вы превысили скорость")
+            return "Вы превысили скорость"
         else:
-            return print(f"Текущая скорость {self.speed}")
+            return f"Текущая скорость {self.speed}"
 
 
 
@@ -51,9 +51,9 @@ class WorkCar(Car):
 
     def show_speed(self):
         if int(self.speed) > 40:
-            return print("Вы превысили скорость")
+            return "Вы превысили скорость"
         else:
-            return print(f"Текущая скорость {self.speed}")
+            return f"Текущая скорость {self.speed}"
 
 
 
@@ -62,7 +62,7 @@ class SportCar(Car):
         super().__init__(speed, color, name, is_police)
 
     def show_speed(self):
-        return print(f"Текущая скорость {self.speed}")
+        return f"Текущая скорость {self.speed}"
 
 
 class PoliceCar(Car):
@@ -70,7 +70,7 @@ class PoliceCar(Car):
         super().__init__(speed, color, name, is_police)
 
     def show_speed(self):
-        return print(f"Текущая скорость {self.speed}")
+        return f"Текущая скорость {self.speed}"
 
 
 town_car_1 = TownCar(85, 'Красненькая', 'Дэу Матиз', False)

@@ -11,7 +11,7 @@ class Stationery:
         self.title = title
 
     def drawing(self):
-        print('Я способ отрисовки родительского класса')
+        return 'Я способ отрисовки родительского класса'
 
 
 class Pen(Stationery):
@@ -19,7 +19,7 @@ class Pen(Stationery):
         super().__init__(title)
 
     def drawing(self):
-        print('Я рисую как ручка')
+        return 'Я рисую как ручка'
 
 
 class Pencil(Stationery):
@@ -27,7 +27,7 @@ class Pencil(Stationery):
         super().__init__(title)
 
     def drawing(self):
-        print('Я рисую как карандаш')
+        return 'Я рисую как карандаш'
 
 
 class Handle(Stationery):
@@ -35,7 +35,7 @@ class Handle(Stationery):
         super().__init__(title)
 
     def drawing(self):
-        print('Я рисую как маркер')
+        return 'Я рисую как маркер'
 
 
 pen_1 = Pen('ЭрикКраузе')
