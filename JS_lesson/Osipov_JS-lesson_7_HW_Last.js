@@ -16,9 +16,15 @@ c. Заполнять поля по очереди, то есть давать �
 // Блок первичных настроек. Надо перевести в объект settings
 
 const localPlace = document.getElementById('basket');
+const localNext = document.getElementById('next')
 const localPlaceProduct = document.getElementById('products');
 const localDelivery = document.getElementById('delivery');
 const localComments = document.getElementById('comments');
+
+
+const localButtonNext = document.getElementsByClassName('button_next');
+const BasketItems = document.getElementsByClassName("prod_item");
+
 
 // Блок продуктов
 
@@ -51,6 +57,7 @@ const basket = {
         this.items.push({ ...product, count: y });
         this.totalPrice = basket.getSumProduct();
         this.totalCount = basket.getCountProduct();
+
     },
 
     getSumProduct: function () {
@@ -70,70 +77,111 @@ const basket = {
             return item.id === id;
         });
         this.items.splice(indexItem, 1);
-        this.totalCount = basket.getCountProduct();
-        this.totalPrice = basket.getSumProduct();
+        basket.referenceBasket(basket.items);
     },
 
     referenceBasket: function (x) {
 
         if (this.totalCount === 0) {
-            localPlace.innerHTML = 'Корзина пуста';
+            localPlace.innerHTML = '<br> <h2>Корзина пуста</h2>';
+            localDelivery.innerHTML = '';
+            localComments.innerHTML = '';
         }
         else {
-            localPlace.innerHTML = `Стоимость добавленных вами ${this.totalCount}
-            товаров составляет ${this.totalPrice} <br> Состав корзины: `
+            this.totalCount = basket.getCountProduct();
+            this.totalPrice = basket.getSumProduct();
+            localPlace.innerHTML = `<br> <h3>Стоимость добавленных вами ${this.totalCount}
+            товаров составляет ${this.totalPrice} рублей</h3> <br> <h4>Состав корзины:</h4> `
 
             for (let i = 0; i < x.length; i++) {
                 const div = document.createElement('div');
                 div.innerHTML =
                     `<div id="${x[i].id}" class="prod_item">
-                <div class="item">
-                    <div class="name"><h4>${x[i].name}</h4>${x[i].color}
-                        <div class="price">Цена:
-                                <span>${x[i].price}</span> руб.
-                                <div class = "count_basket"> Количество ${x[i].count} </div>
+                        <div class="item_basket">
+                            <div class="name"><h4>${x[i].name}</h4>${x[i].color}
+                                <div class="price">Цена:
+                                    <span>${x[i].price}</span> руб.
+                                    <div class = "count_basket"> Количество ${x[i].count} </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div><button data-id="${x[i].id}" class="button_basket_delete">Удалить</button> </div>
-                <br>
-                <div><button data-id="${i}" class="button_basket_add">Увеличить число товара</button></div>
-                <br>
-                <div><button data-id="${i}" class="button_basket_minus">Уменьшить число товара</button></div>
-                <br>
-                </div>`;
+                        <div><button data-id="${x[i].id}" class="button_basket_delete">Удалить</button> </div>
+                        <br>
+                        <div><button data-id="${i}" class="button_basket_add">Увеличить число товара</button></div>
+                        <br>
+                        <div><button data-id="${i}" class="button_basket_minus">Уменьшить число товара</button></div>
+                        <br>
+                    </div>`;
 
                 localPlace.appendChild(div);
-
             }
+
             basket.referenseDeliveryAdress();
             basket.referenceComments();
+            basket.referenseButtonNext();
         }
+
     },
 
     referenseDeliveryAdress: function () {
-        const div = document.createElement('div');
-        div.insertAdjacentHTML =
+
+        localDelivery.innerHTML =
             `<div class="adress">
-                <div>Город</div>
-                <div>Улица</div>
-                <div>Дом</div>
-                <div>Квартира</div>
+                <br>
+                <h4 id = "delivery"> Ваш адрес доставки </h4>
+                <div id = "hidden_adress">
+                    <div>Город</div>
+                    <input type="text" size="40">
+                    <div>Улица</div>
+                    <input type="text" size="40">
+                    <div>Дом</div>
+                    <input type="text" size="40">
+                    <div>Квартира</div>
+                    <input type="text" size="40">
+                    <p><input type="submit" value="Отправить">
+                    <input type="reset" value="Очистить"></p>
+                </div>
             </div>`;
-        localDelivery.appendChild(div);
 
     },
 
+
     referenceComments: function () {
 
-        const div = document.createElement('div');
-        div.insertAdjacentHTML =
-            `<div  class="comments_client">
-                <div class='comment_clock">Поле комментария</div>
+        localComments.innerHTML =
+            `<div  class="comments">
+                <div class="comment_clock">
+                    <h4 id = "comment_hidden">Поле комментария</h4>
+                    <div id = "hidden_comment">
+                        <form name="test" method="post" action="input1.php">
+                        <p><b>Ваше имя:</b><br>
+                        <input type="text" size="40">
+                        </p>
+
+                        <p>Комментарий<Br>
+                        <textarea name="comment" cols="40" rows="3"></textarea></p>
+                        <p><input type="submit" value="Отправить">
+                        <input type="reset" value="Очистить"></p>
+                        </form>
+                    </div>
+                </div>
             </div>`;
-        localComments.appendChild(div);
-    }
+    },
+
+
+    referenseButtonNext: function () {
+
+        if (basket.items.length == 0) {
+            localNext.innerHTML = "";
+        } else {
+            //const div = document.createElement('div');
+            localNext.innerHTML =
+                `<br>
+            <div><button class="button_next">Далее</button></div>
+            `;
+        }
+    },
 
 }
 
@@ -165,7 +213,7 @@ const showcase = {
                         </div>
                     </div>
                     <div class="sale">
-                        <button data-id="${i}" class="button">В корзину</button>
+                        <button data-id="${x[i].id}" class="button">В корзину</button>
                     </div>
                 </div>`;
             localPlaceProduct.appendChild(div);
@@ -174,20 +222,32 @@ const showcase = {
     },
 }
 
-
-
-
-
 // Блок событий
+
+// Добавление в корзину с витрины
 
 localPlaceProduct.addEventListener('click', function (e) {
     if (e.target.className === 'button') {
-        const id = Number(e.target.dataset.id);
-        const choice = showcase.items[id];
-        basket.addToBasket(choice, 1);
-        basket.referenceBasket(basket.items);
+        const id = e.target.dataset.id;
+        const choice = showcase.items.findIndex(item => {
+            return item.id === +id;
+        })
+        const choice_basket = basket.items.findIndex(item => {
+            return item.id === +id;
+        });
+        if (choice_basket !== -1) {
+            basket.items[choice_basket].count += 1;
+            console.log(basket.items);
+            basket.referenceBasket(basket.items);
+        }
+        else {
+            basket.addToBasket(showcase.items[choice], 1);
+            basket.referenceBasket(basket.items);
+        }
     }
 });
+
+// Удаление из корзины
 
 localPlace.addEventListener('click', function (f) {
     if (f.target.className === 'button_basket_delete') {
@@ -197,35 +257,59 @@ localPlace.addEventListener('click', function (f) {
     }
 });
 
+// Увеличение объема продукта в корзине
+
 localPlace.addEventListener('click', function (y) {
     if (y.target.className === 'button_basket_add') {
         const id = Number(y.target.dataset.id);
         basket.items[id].count += 1;
-        this.totalPrice = basket.getSumProduct();
-        this.totalCount = basket.getCountProduct();
         basket.referenceBasket(basket.items);
     }
 });
 
+//Уменьшение объема продукта в корзине
+
 localPlace.addEventListener('click', function (z) {
     if (z.target.className === 'button_basket_minus') {
         const id = Number(z.target.dataset.id);
-        if (basket.items[id].count <= 0) {
+        if (basket.items[id].count < 1) {
             basket.deleteFromBasket(id);
             basket.referenceBasket(basket.items);
         }
         else {
-            basket.items[id].count -= 1;
-            this.totalPrice = basket.getSumProduct();
-            this.totalCount = basket.getCountProduct();
+            basket.items[id].count--;
             basket.referenceBasket(basket.items);
         }
     }
 });
 
+// Клик по кнопке "далее"
+
+let i = 0;
+localNext.addEventListener('click', function (y) {
+
+    if (y.target.className === 'button_next' && i == 0) {
+        localDelivery.classList.remove('hidden');
+        localPlace.classList.add('hidden');
+        basket.referenceBasket(basket.items);
+        i++;
+    } else if (y.target.className === 'button_next' && i == 1) {
+        localDelivery.classList.add('hidden');
+        localComments.classList.remove('hidden');
+        basket.referenceBasket(basket.items);
+        i++;
+    } else if (y.target.className === 'button_next' && i == 2) {
+        localDelivery.classList.add('hidden');
+        localPlace.classList.remove('hidden');
+        localComments.classList.add('hidden');
+        basket.referenceBasket(basket.items);
+        i -= 2;
+    }
+});
+
+
 
 // Блок вызовов
-
 
 showcase.addToShowcase(product_1);
 showcase.addToShowcase(product_2);
